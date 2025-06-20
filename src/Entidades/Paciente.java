@@ -5,12 +5,14 @@ import TDA.Pila;
 public class Paciente {
     private String dni;
     private String nombre;
+    private String apellido;
     private int edad;
     private Pila<Consulta> historial;
 
-    public Paciente(String dni, String nombre, int edad) {
+    public Paciente(String dni, String nombre, String apellido, int edad) {
         this.dni = dni;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.edad = edad;
         this.historial = new Pila<>();
     }

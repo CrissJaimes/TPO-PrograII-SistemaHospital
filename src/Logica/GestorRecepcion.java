@@ -11,11 +11,27 @@ public class GestorRecepcion {
     private ColaConPrioridad<Turno> colaUrgencias = new ColaConPrioridad<>();
     private ListaEnlazada<Turno> turnosDelDia = new ListaEnlazada<>(); //creada para poder visualizar todos los turnos del dia, es decir, urgentes y generales
 
-    public void registrarPaciente(String dni, String nombre, int edad) {
+    public void registrarPaciente(String dni, String nombre, String apellido, int edad) throws IllegalArgumentException {
+        if (!dni.matches("\\d{7,8}")) {
+            System.out.println("DNI inválido");
+            return;
+        }
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
+            System.out.println("Nombre inválido");
+            return;
+        }
+        if (edad < 0 || edad > 99) {
+            System.out.println("Edad inválida");
+            return;
+        }
         if (!pacientes.contieneClave(dni)) {
-            pacientes.put(dni, new Paciente(dni, nombre, edad));
+            pacientes.put(dni, new Paciente(dni, nombre, apellido, edad));
+            System.out.println("Paciente registrado correctamente.");
+        } else {
+            System.out.println("Ya existe un paciente con ese DNI.");
         }
     }
+
 
     public void agendarTurno(String dni, String fechaHora) {
         if (pacientes.contieneClave(dni)) {
