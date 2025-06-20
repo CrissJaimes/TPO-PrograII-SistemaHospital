@@ -9,9 +9,7 @@ public static void main(String[] args) {
     //  Datos precargados
     sistema.registrarPaciente("12345678", "Ana", "Gómez", 34);
     sistema.registrarPaciente("87654321", "Carlos", "Pérez", 58);
-    sistema.agendarTurno("12345678", "2025-06-01 10:00");
-    sistema.agendarTurno("87654321", "2025-06-01 10:30");
-    sistema.registrarUrgencia("12345678", "2025-06-01 09:45");
+;
 
     do {
         System.out.println("\n========== MENÚ RECEPCIÓN HOSPITALARIA ==========");
@@ -66,7 +64,7 @@ public static void main(String[] args) {
                 }
                 System.out.print("Fecha y hora del turno (YYYY-MM-DD HH:MM): ");
                 String fechaHora = scanner.nextLine();
-                sistema.agendarTurno(dni, fechaHora);
+
                 System.out.println("Turno agendado correctamente.");
                 break;
 
@@ -79,7 +77,7 @@ public static void main(String[] args) {
                 }
                 System.out.print("Fecha y hora de urgencia (YYYY-MM-DD HH:MM): ");
                 fechaHora = scanner.nextLine();
-                sistema.registrarUrgencia(dni, fechaHora);
+
                 System.out.println("Urgencia registrada correctamente.");
                 break;
 

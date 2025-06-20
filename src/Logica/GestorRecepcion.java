@@ -41,7 +41,7 @@ public class GestorRecepcion {
         }
     }
 
-    public void registrarUrgencia(String dni, String fechaHora, int prioridad) {
+    public void registrarUrgencia(String nombre, String apellido, String dni, String fechaHora, int prioridad) {
         if (!pacientes.contieneClave(dni)) {
             System.out.println("Paciente no registrado. No se puede asignar turno.");
             return;
@@ -52,7 +52,7 @@ public class GestorRecepcion {
             return;
         }
 
-        Turno t = new Turno(nombre, apellido, dni, fechaHora, prioridad); // nuevo constructor con prioridad numérica
+        Turno t = new Turno(nombre, apellido, dni, fechaHora, prioridad);
         colaUrgencias.encolar(t, prioridad);
         turnosDelDia.agregar(t);
         System.out.println("Turno de urgencia registrado con prioridad " + prioridad);
