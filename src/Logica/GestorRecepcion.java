@@ -41,7 +41,7 @@ public class GestorRecepcion {
         }
     }
 
-    public void registrarUrgencia(String dni, String fechaHora, int prioridad) {
+    public void registrarUrgencia(String nombre, String apellido,String dni, String fechaHora, int prioridad) {
         if (!pacientes.contieneClave(dni)) {
             System.out.println("Paciente no registrado. No se puede asignar turno.");
             return;
