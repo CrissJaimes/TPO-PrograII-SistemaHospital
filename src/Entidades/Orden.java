@@ -1,13 +1,13 @@
 package Entidades;
 
-public class Turno implements Comparable<Turno> {
+public class Orden implements Comparable<Orden> {
     private String nombre;
     private String apellido;
     private String dniPaciente;
     private String fechaHora;
     private int prioridad;
 
-    public Turno(String nombre, String apellido, String dniPaciente, String fechaHora, int prioridad) {
+    public Orden(String nombre, String apellido, String dniPaciente, String fechaHora, int prioridad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dniPaciente = dniPaciente;
@@ -28,13 +28,13 @@ public class Turno implements Comparable<Turno> {
     }
 
     @Override
-    public int compareTo(Turno otro) {
+    public int compareTo(Orden otro) {
 
         return Integer.compare(otro.prioridad, this.prioridad);
     }
 
     @Override
     public String toString() {
-        return "El paciente " + nombre + " " + apellido + " - DNI: " + dniPaciente + " con prioridad: " + prioridad ;
+        return "El paciente " + nombre + " " + apellido + " - DNI: " + dniPaciente + " con prioridad: " + prioridad;
     }
 }

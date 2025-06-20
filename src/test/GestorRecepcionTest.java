@@ -8,26 +8,32 @@ public class GestorRecepcionTest {
 
         GestorRecepcion sistema = new GestorRecepcion();
 
-        System.out.println("=== Test 1: Registrar paciente ===");
-        sistema.registrarPaciente("11111111", "Laura", "Test", 30);
-        sistema.mostrarHistorial("11111111");  // Debería no mostrar nada (historial vacío)
+                System.out.println("== Caso 1: Registrar paciente con nuevo DNI ==");
+                String nombre1 = "Ana";
+                String apellido1 = "García";
+                sistema.registrarPaciente("12345678", nombre1, apellido1, 32);
 
-        System.out.println("\n=== Test 2: Agendar turno común ===");
-        sistema.agendarTurno("Laura", "Test", "11111111", "2025-06-21 10:00", 1);
-        sistema.mostrarTurnosDelDia();  // Debería mostrar un turno común
+                System.out.println("\n== Caso 2: Agendar turno común y verificar en la cola ==");
+                sistema.registrarUrgencia("Cristian", "Jaimes", "12345678", "2025-06-20 10:00", 1);
 
-        System.out.println("\n=== Test 3: Agregar urgencia y verificar prioridad ===");
-        sistema.registrarUrgencia("Victoria","Sanchez","11111111", "2025-06-21 09:00", 5); // Prioridad alta
+                System.out.println("\n== Caso 3: Ingresar paciente por urgencia y verificar prioridad ==");
+                String nombre2 = "Carlos";
+                String apellido2 = "López";
+                sistema.registrarPaciente("23456789", nombre2, apellido2, 45);
+                sistema.registrarUrgencia("León", "Saavedra","23456789", "2025-06-20 10:05", 5); // Emergencia vital
 
-        System.out.println("\n→ Atendiendo primer paciente (debería ser la urgencia)...");
-        sistema.atenderPaciente("Dolor de cabeza", "Requiere descanso", "2025-06-21");
+                String nombre3 = "Beatriz";
+                String apellido3 = "Díaz";
+                sistema.registrarPaciente("34567890", nombre3 , apellido3, 28);
+                sistema.registrarUrgencia("Cristina", "Gloria","34567890", "2025-06-20 10:10", 3); // Urgencia
 
-        System.out.println("\n→ Atendiendo segundo paciente (turno normal)...");
-        sistema.atenderPaciente("Control general", "Sin novedad", "2025-06-21");
+                System.out.println("\n== Caso 4: Atender pacientes y verificar orden correcto ==");
+                sistema.atenderPaciente("Dolor abdominal", "Apendicitis", "2025-06-20");
+                sistema.atenderPaciente("Fiebre alta", "Gripe", "2025-06-20");
+                sistema.atenderPaciente("Chequeo", "Sin novedades", "2025-06-20");
 
-        System.out.println("\n=== Ver historial de Laura Test ===");
-        sistema.mostrarHistorial("11111111");  // Debería mostrar 2 consultas en orden de atención
-
-        System.out.println("\n=== Test terminado ===");
-    }
-}
+                System.out.println("\n== Caso 5: Consultar historial clínico de paciente después de varias atenciones ==");
+                sistema.mostrarHistorial("23456789"); // Carlos
+                sistema.mostrarHistorial("12345678"); // Ana
+            }
+        }

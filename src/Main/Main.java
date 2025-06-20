@@ -1,3 +1,5 @@
+package Main;
+
 import Logica.GestorRecepcion;
 import java.util.Scanner;
 
@@ -11,8 +13,8 @@ public class Main {
         // Datos precargados
         sistema.registrarPaciente("12345678", "Ana", "Gómez", 34);
         sistema.registrarPaciente("87654321", "Carlos", "Pérez", 58);
-        sistema.agendarTurno("Ana", "Gómez", "12345678", "2025-06-01 10:00", 1);
-        sistema.agendarTurno("Carlos", "Pérez", "87654321", "2025-06-01 10:30", 1);
+        sistema.registrarUrgencia("Ana", "Gómez", "12345678", "2025-06-01 10:00", 1);
+        sistema.registrarUrgencia("Carlos", "Pérez", "87654321", "2025-06-01 10:30", 1);
         sistema.registrarUrgencia("Ana", "Gómez", "12345678","2025-06-01 09:45", 5);
 
         do {
@@ -69,8 +71,8 @@ public class Main {
                     apellido = scanner.nextLine();
                     System.out.print("Fecha y hora del turno (YYYY-MM-DD HH:MM): ");
                     String fechaHora = scanner.nextLine();
-                    sistema.agendarTurno(nombre, apellido, dni, fechaHora, 1);
-                    System.out.println("Turno agendado correctamente.");
+                    sistema.registrarUrgencia(nombre, apellido, dni, fechaHora, 1);
+                    System.out.println("Orden agendado correctamente.");
                     break;
 
                 case 3:
