@@ -33,21 +33,31 @@ public class GestorRecepcion {
     }
 
 
-    public void agendarTurno(String dni, String fechaHora) {
+    public void agendarTurno(String nombre, String apellido, String dni, String fechaHora, int prioridad) {
         if (pacientes.contieneClave(dni)) {
-            Turno t = new Turno(dni, fechaHora, false);
+            Turno t = new Turno(nombre, apellido, dni, fechaHora, prioridad);
             colaGeneral.encolar(t);
             turnosDelDia.agregar(t);
         }
     }
 
-    public void registrarUrgencia(String dni, String fechaHora) {
-        if (pacientes.contieneClave(dni)) {
-            Turno t = new Turno(dni, fechaHora, true);
-             colaUrgencias.encolar(t, true); // true = prioridad
-            turnosDelDia.agregar(t);
+    public void registrarUrgencia(String dni, String fechaHora, int prioridad) {
+        if (!pacientes.contieneClave(dni)) {
+            System.out.println("Paciente no registrado. No se puede asignar turno.");
+            return;
         }
+
+        if (prioridad < 1 || prioridad > 5) {
+            System.out.println("Error: la prioridad debe estar entre 1 (no urgente) y 5 (emergencia vital).");
+            return;
+        }
+
+        Turno t = new Turno(nombre, apellido, dni, fechaHora, prioridad); // nuevo constructor con prioridad numérica
+        colaUrgencias.encolar(t, prioridad);
+        turnosDelDia.agregar(t);
+        System.out.println("Turno de urgencia registrado con prioridad " + prioridad);
     }
+
 
     public boolean existePaciente(String dni) {
 

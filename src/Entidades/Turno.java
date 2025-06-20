@@ -1,14 +1,18 @@
 package Entidades;
 
 public class Turno implements Comparable<Turno> {
+    private String nombre;
+    private String apellido;
     private String dniPaciente;
     private String fechaHora;
-    private boolean esUrgente;
+    private int prioridad;
 
-    public Turno(String dniPaciente, String fechaHora, boolean esUrgente) {
+    public Turno(String nombre, String apellido, String dniPaciente, String fechaHora, int prioridad) {
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.dniPaciente = dniPaciente;
         this.fechaHora = fechaHora;
-        this.esUrgente = esUrgente;
+        this.prioridad = prioridad;
     }
 
     public String getDniPaciente() {
@@ -19,18 +23,18 @@ public class Turno implements Comparable<Turno> {
         return fechaHora;
     }
 
-    public boolean esUrgente() {
-        return esUrgente;
+    public int prioridad() {
+        return prioridad;
     }
 
     @Override
     public int compareTo(Turno otro) {
 
-        return Boolean.compare(otro.esUrgente, this.esUrgente);
+        return Integer.compare(otro.prioridad, this.prioridad);
     }
 
     @Override
     public String toString() {
-        return fechaHora + " - DNI: " + dniPaciente + (esUrgente ? " (URGENTE)" : "");
+        return "El paciente " + nombre + " " + apellido + " - DNI: " + dniPaciente + " con prioridad: " + prioridad ;
     }
 }
