@@ -1,10 +1,6 @@
-package logica;
-import java.util.*;
-import Entidades.Consulta;
-import Entidades.Paciente;
-import Entidades.Turno;
-import tdas.*;
+package Logica;
 
+import TDA.*;
 import Entidades.Consulta;
 import Entidades.Paciente;
 import Entidades.Turno;
@@ -13,8 +9,7 @@ public class GestorRecepcion {
     private Diccionario<String, Paciente> pacientes = new Diccionario<>();
     private Cola<Turno> colaGeneral = new Cola<>();
     private ColaConPrioridad<Turno> colaUrgencias = new ColaConPrioridad<>();
-    private ListaEnlazada<Turno> turnosDelDia = new ListaEnlazada<>();
-
+    private ListaEnlazada<Turno> turnosDelDia = new ListaEnlazada<>(); //creada para poder visualizar todos los turnos del dia, es decir, urgentes y generales
 
     public void registrarPaciente(String dni, String nombre, int edad) {
         if (!pacientes.contieneClave(dni)) {
@@ -39,6 +34,7 @@ public class GestorRecepcion {
     }
 
     public boolean existePaciente(String dni) {
+
         return pacientes.contieneClave(dni);
     }
 
@@ -65,6 +61,22 @@ public class GestorRecepcion {
                 System.out.println(c);
             }
         }
+    }
+
+    public String verProximoTurnoUrgente() {
+        if (!colaUrgencias.estaVacia()) {
+            Turno t = colaUrgencias.verPrimero();
+            return t.toString();
+        }
+        return "Sin turnos";
+    }
+
+    public String verProximoTurnoNormal() {
+        if (!colaGeneral.estaVacia()) {
+            Turno t = colaGeneral.verPrimero();
+            return t.toString();
+        }
+        return "Sin turnos";
     }
 
     public void mostrarTurnosDelDia() {

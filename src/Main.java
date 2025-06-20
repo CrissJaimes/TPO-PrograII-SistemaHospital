@@ -1,4 +1,4 @@
-import logica.GestorRecepcion;
+import Logica.GestorRecepcion;
 import java.util.Scanner;
 
 public class Main {
@@ -17,7 +17,7 @@ public class Main {
         do {
             System.out.println("\n========== MENÚ RECEPCIÓN HOSPITALARIA ==========");
             System.out.println("1. Registrar nuevo paciente");
-            System.out.println("2. Agendar turno normal");
+            System.out.println("2. Agendar turno");
             System.out.println("3. Registrar urgencia");
             System.out.println("4. Atender siguiente paciente");
             System.out.println("5. Ver historial clínico de un paciente");

@@ -1,6 +1,6 @@
 package Entidades;
 
-import tdas.Pila;
+import TDA.Pila;
 
 public class Paciente {
     private String dni;

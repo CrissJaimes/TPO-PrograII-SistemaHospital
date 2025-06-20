@@ -1,6 +1,5 @@
 package Entidades;
 
-
 public class Turno implements Comparable<Turno> {
     private String dniPaciente;
     private String fechaHora;
