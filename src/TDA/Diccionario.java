@@ -1,4 +1,4 @@
-package tdas;
+package TDA;
 
 import java.util.LinkedList;
 
@@ -40,7 +40,7 @@ public class Diccionario<K, V> {
         tabla[indice].add(new Par<>(clave, valor));
     }
     public Iterable<K> claves() {
-        ListaEnlazada<K> lista = new ListaEnlazada<>();
+        TDA.ListaEnlazada<K> lista = new ListaEnlazada<>();
         for (LinkedList<Par<K, V>> bucket : tabla) {
             for (Par<K, V> par : bucket) {
             lista.agregar(par.clave);

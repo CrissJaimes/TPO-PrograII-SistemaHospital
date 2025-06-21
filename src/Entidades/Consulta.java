@@ -1,6 +1,5 @@
 package Entidades;
 
-
 public class Consulta {
     private String fecha;
     private String motivo;
