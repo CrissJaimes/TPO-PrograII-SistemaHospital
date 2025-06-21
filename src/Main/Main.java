@@ -3,6 +3,9 @@ package Main;
 import Logica.GestorRecepcion;
 import java.util.Scanner;
 
+import Entidades.Orden;
+import Entidades.Paciente;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -99,12 +102,25 @@ public class Main {
                     break;
 
                 case 4:
+                    Orden siguiente = sistema.verProximaOrden();
+                    if (siguiente == null) {
+                        System.out.println("No hay pacientes en espera.");
+                    break;
+                    }
+                    Paciente p = sistema.getPacientePorDni(siguiente.getDniPaciente());
+                    if (p == null) {
+                        System.out.println("Paciente no encontrado.");
+                    break;
+                    }
+                    System.out.println("Atendiendo a: " + p.getNombre() + " " + p.getApellido());
+
                     System.out.print("Motivo de consulta: ");
                     String motivo = scanner.nextLine();
                     System.out.print("Diagnóstico: ");
                     String diagnostico = scanner.nextLine();
                     System.out.print("Fecha de atención (YYYY-MM-DD): ");
                     String fecha = scanner.nextLine();
+
                     sistema.atenderPaciente(motivo, diagnostico, fecha);
                     break;
 

@@ -25,6 +25,10 @@ public class Paciente {
         return nombre;
     }
 
+    public String getApellido(){
+        return apellido;
+    }
+
     public int getEdad() {
         return edad;
     }
@@ -37,8 +41,12 @@ public class Paciente {
         return historial;
     }
 
+    public boolean historialVacio() {
+        return historial.estaVacia();
+    }
+
     @Override
     public String toString() {
-        return nombre + " (DNI: " + dni + ", Edad: " + edad + ")";
+        return nombre + " " +apellido + " (DNI: " + dni + ", Edad: " + edad + ")";
     }
 }

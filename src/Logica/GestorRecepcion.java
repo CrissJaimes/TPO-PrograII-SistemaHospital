@@ -67,8 +67,11 @@ public class GestorRecepcion {
             : colaGeneral.desencolar();
         if (turnoAtendido != null) {
             Paciente p = pacientes.get(turnoAtendido.getDniPaciente());
+            System.out.println("Atendiendo a: " + p.getNombre() + " " + p.getApellido());
             p.agregarConsulta(new Consulta(fecha, motivo, diagnostico));
-        }
+        }else {
+                System.out.println("No hay pacientes en espera.");
+            }
     }
 
     public void mostrarPacientes() {
@@ -78,10 +81,17 @@ public class GestorRecepcion {
     }
 
     public void mostrarHistorial(String dni) {
-        if (pacientes.contieneClave(dni)) {
-            for (Consulta c : pacientes.get(dni).getHistorial()) {
+    if (pacientes.contieneClave(dni)) {
+        Paciente paciente = pacientes.get(dni);
+        if (paciente.historialVacio()) {
+            System.out.println("Historial vacío");
+        } else {
+            for (Consulta c : paciente.getHistorial()) {
                 System.out.println(c);
+                }
             }
+        } else {
+            System.out.println("Paciente no encontrado.");
         }
     }
 
@@ -100,6 +110,20 @@ public class GestorRecepcion {
         }
         return "Sin turnos";
     }
+
+    public Orden verProximaOrden() {
+        if (!colaUrgencias.estaVacia()) {
+            return colaUrgencias.verPrimero();
+        } else if (!colaGeneral.estaVacia()) {
+            return colaGeneral.verPrimero();
+        } else {
+            return null;
+        }
+    }
+
+    public Paciente getPacientePorDni(String dni) {
+    return pacientes.get(dni);
+}
 
     public void mostrarTurnosDelDia() {
         for (Orden t : turnosDelDia) {
