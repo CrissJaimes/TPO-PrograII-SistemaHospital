@@ -1,8 +1,8 @@
 package Main;
 
 import Logica.GestorRecepcion;
+import java.time.LocalDate;
 import java.util.Scanner;
-
 import Entidades.Orden;
 import Entidades.Paciente;
 
@@ -13,12 +13,16 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int opcion;
 
-        // Datos precargados
-        sistema.registrarPaciente("12345678", "Ana", "Gómez", 34);
-        sistema.registrarPaciente("87654321", "Carlos", "Pérez", 58);
-        sistema.registrarUrgencia("Ana", "Gómez", "12345678", "2025-06-01 10:00", 1);
-        sistema.registrarUrgencia("Carlos", "Pérez", "87654321", "2025-06-01 10:30", 1);
-        sistema.registrarUrgencia("Ana", "Gómez", "12345678","2025-06-01 09:45", 5);
+        // Datos precargadosLocalDate.ofEpochDay(1998-01-16
+        sistema.registrarPaciente("12345678", "Ana", "Gómez", LocalDate.ofEpochDay(1998-02-1));
+        sistema.registrarPaciente("87654321", "Carlos", "Pérez", LocalDate.ofEpochDay(1991-02-21));
+        sistema.registrarPaciente("35428821", "Sofía", "Ramírez", LocalDate.of(1994, 3, 15));
+        sistema.registrarPaciente("55432210", "Mateo", "Fernández", LocalDate.of(1988, 11, 5));
+        sistema.registrarPaciente("20620198", "Lucía", "Gómez", LocalDate.of(2001, 7, 22));
+
+        sistema.registrarUrgencia("35428821", "clinica", "dolor abdominal agudo", "gastritis",2);
+        sistema.registrarUrgencia("55432210", "pediatria", "fiebre y vomitos", "virus", 4);
+        sistema.registrarUrgencia("20620198", "traumatologia", "caida","fractura de rotula sin desplazamiento", 3);
 
         do {
             System.out.println("\n========== MENÚ RECEPCIÓN HOSPITALARIA ==========");
@@ -42,7 +46,7 @@ public class Main {
             switch (opcion) {
                 case 1:
                     System.out.print("Ingrese DNI: ");
-                    String dni = scanner.nextLine();
+                    String dni = scanner.nextLine().trim();;
                     if (sistema.existePaciente(dni)) {
                         System.out.println("Ya existe un paciente con ese DNI.");
                         break;
@@ -51,31 +55,29 @@ public class Main {
                     String nombre = scanner.nextLine();
                     System.out.print("Ingrese apellido: ");
                     String apellido = scanner.nextLine();
-                    System.out.print("Ingrese edad: ");
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Ingrese una edad válida.");
-                        scanner.next();
-                    }
-                    int edad = scanner.nextInt();
-                    scanner.nextLine();
-                    sistema.registrarPaciente(dni, nombre, apellido, edad);
+                    System.out.print("Ingrese Fecha de Nacimiento (formato yyyy-MM-dd): ");
+                    String input = scanner.nextLine();
+                    LocalDate fechaNacimiento = LocalDate.parse(input); // SOLO si cumple bien el formato
+                    sistema.registrarPaciente(dni, nombre, apellido, fechaNacimiento);
                     break;
 
                 case 2:
-                    System.out.print("DNI del paciente: ");
-                    dni = scanner.nextLine();
-                    if (!sistema.existePaciente(dni)) {
-                        System.out.println("No existe un paciente con ese DNI.");
-                        break;
-                    }
-                    System.out.print("Nombre: ");
-                    nombre = scanner.nextLine();
-                    System.out.print("Apellido: ");
-                    apellido = scanner.nextLine();
-                    System.out.print("Fecha y hora del turno (YYYY-MM-DD HH:MM): ");
-                    String fechaHora = scanner.nextLine();
-                    sistema.registrarUrgencia(nombre, apellido, dni, fechaHora, 1);
-                    System.out.println("Orden agendado correctamente.");
+//                    System.out.print("DNI del paciente: ");
+//                    dni = scanner.nextLine();
+//                    if (!sistema.existePaciente(dni)) {
+//                        System.out.println("No existe un paciente con ese DNI.");
+//                        break;
+//                    }
+//                    System.out.print("Especialidad: ");
+//                    especialidad = scanner.nextLine();
+//                    System.out.print("Motivo: ");
+//                    motivo = scanner.nextLine();
+//                    System.out.print("Diagnostico: ");
+//                    diagnostico = scanner.nextLine();
+//                    System.out.print("Prioridad: ");
+//                    prioridad = scanner.nextLine();
+//                    sistema.registrarUrgencia(especialidad, motivo, dni, diagnostico, 1);
+//                    System.out.println("Orden agendado correctamente.");
                     break;
 
                 case 3:
@@ -85,12 +87,12 @@ public class Main {
                         System.out.println("No existe un paciente con ese DNI.");
                         break;
                     }
-                    System.out.print("Nombre: ");
-                    nombre = scanner.nextLine();
-                    System.out.print("Apellido: ");
-                    apellido = scanner.nextLine();
-                    System.out.print("Fecha y hora de urgencia (YYYY-MM-DD HH:MM): ");
-                    fechaHora = scanner.nextLine();
+                    System.out.print("Ingrese especialidad (clinica, pediatria, traumatologia): ");
+                    String especialidad = scanner.nextLine();
+                    System.out.print("Motivo: ");
+                    String motivo = scanner.nextLine();
+                    System.out.print("Diagnostico: ");
+                    String diagnostico = scanner.nextLine();
                     System.out.print("Prioridad (1 a 5): ");
                     while (!scanner.hasNextInt()) {
                         System.out.println("Ingrese una prioridad válida entre 1 y 5.");
@@ -98,11 +100,13 @@ public class Main {
                     }
                     int prioridad = scanner.nextInt();
                     scanner.nextLine();
-                    sistema.registrarUrgencia(nombre, apellido, dni, fechaHora, prioridad);
+                    sistema.registrarUrgencia(especialidad, motivo, dni, diagnostico, prioridad);
                     break;
 
                 case 4:
-                    Orden siguiente = sistema.verProximaOrden();
+                    System.out.print("Ingrese especialidad (clinica, pediatria, traumatologia): ");
+                    especialidad = scanner.nextLine();
+                    Orden siguiente = sistema.verProximaOrden(especialidad);
                     if (siguiente == null) {
                         System.out.println("No hay pacientes en espera.");
                     break;
@@ -112,16 +116,8 @@ public class Main {
                         System.out.println("Paciente no encontrado.");
                     break;
                     }
-                    System.out.println("Atendiendo a: " + p.getNombre() + " " + p.getApellido());
 
-                    System.out.print("Motivo de consulta: ");
-                    String motivo = scanner.nextLine();
-                    System.out.print("Diagnóstico: ");
-                    String diagnostico = scanner.nextLine();
-                    System.out.print("Fecha de atención (YYYY-MM-DD): ");
-                    String fecha = scanner.nextLine();
-
-                    sistema.atenderPaciente(motivo, diagnostico, fecha);
+                    sistema.atenderPaciente(especialidad);
                     break;
 
                 case 5:

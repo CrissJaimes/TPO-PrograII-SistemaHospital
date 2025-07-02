@@ -2,18 +2,21 @@ package Entidades;
 
 import TDA.Pila;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public class Paciente {
     private String dni;
     private String nombre;
     private String apellido;
-    private int edad;
+    private LocalDate fechaNacimiento;
     private Pila<Consulta> historial;
 
-    public Paciente(String dni, String nombre, String apellido, int edad) {
+    public Paciente(String dni, String nombre, String apellido, LocalDate fechaNacimiento) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.edad = edad;
+        this.fechaNacimiento = fechaNacimiento;
         this.historial = new Pila<>();
     }
 
@@ -29,9 +32,11 @@ public class Paciente {
         return apellido;
     }
 
-    public int getEdad() {
-        return edad;
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
     }
+
+    public int calcularEdad() { return Period.between(fechaNacimiento, LocalDate.now()).getYears();}
 
     public void agregarConsulta(Consulta consulta) {
         historial.apilar(consulta);
@@ -47,6 +52,6 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return nombre + " " +apellido + " (DNI: " + dni + ", Edad: " + edad + ")";
+        return nombre + " " +apellido + " (DNI: " + dni + ", Edad: " + fechaNacimiento + ")";
     }
 }
