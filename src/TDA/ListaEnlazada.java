@@ -3,6 +3,8 @@ package TDA;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import Entidades.Orden;
+
 public class ListaEnlazada<T> implements Iterable<T> {
 
     private static class Nodo<T> {
@@ -47,5 +49,28 @@ public class ListaEnlazada<T> implements Iterable<T> {
     public boolean estaVacia() {
         return cabeza == null;
     }
+
+    public void agregarOrdenado(Orden nuevaOrden) {
+        Nodo<T> nuevo = new Nodo<>((T) nuevaOrden);
+        if (cabeza == null || ((Orden) cabeza.dato).getFechaHora().compareTo(nuevaOrden.getFechaHora()) > 0) {
+            nuevo.siguiente = cabeza;
+            cabeza = nuevo;
+        if (cola == null) cola = nuevo;
+            return;
+    }
+
+        Nodo<T> actual = cabeza;
+        while (actual.siguiente != null &&
+            ((Orden) actual.siguiente.dato).getFechaHora().compareTo(nuevaOrden.getFechaHora()) <= 0) {
+            actual = actual.siguiente;
+    }
+
+        nuevo.siguiente = actual.siguiente;
+        actual.siguiente = nuevo;
+        if (nuevo.siguiente == null) {
+            cola = nuevo;
+        }
+    }
+
 }
 

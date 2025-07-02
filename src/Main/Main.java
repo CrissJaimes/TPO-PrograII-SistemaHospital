@@ -68,10 +68,9 @@ public class Main {
                         System.out.println("No existe un paciente con ese DNI.");
                         break;
                     }
-                    System.out.print("Nombre: ");
-                    nombre = scanner.nextLine();
-                    System.out.print("Apellido: ");
-                    apellido = scanner.nextLine();
+                    Paciente pacienteOrden = sistema.getPacientePorDni(dni);
+                    nombre = pacienteOrden.getNombre();
+                    apellido = pacienteOrden.getApellido();
                     System.out.print("Fecha y hora del turno (YYYY-MM-DD HH:MM): ");
                     String fechaHora = scanner.nextLine();
                     sistema.registrarUrgencia(nombre, apellido, dni, fechaHora, 1);
@@ -85,10 +84,9 @@ public class Main {
                         System.out.println("No existe un paciente con ese DNI.");
                         break;
                     }
-                    System.out.print("Nombre: ");
-                    nombre = scanner.nextLine();
-                    System.out.print("Apellido: ");
-                    apellido = scanner.nextLine();
+                    Paciente pacienteUrg = sistema.getPacientePorDni(dni);
+                    nombre = pacienteUrg.getNombre();
+                    apellido = pacienteUrg.getApellido();
                     System.out.print("Fecha y hora de urgencia (YYYY-MM-DD HH:MM): ");
                     fechaHora = scanner.nextLine();
                     System.out.print("Prioridad (1 a 5): ");
@@ -105,12 +103,12 @@ public class Main {
                     Orden siguiente = sistema.verProximaOrden();
                     if (siguiente == null) {
                         System.out.println("No hay pacientes en espera.");
-                    break;
+                        break;
                     }
                     Paciente p = sistema.getPacientePorDni(siguiente.getDniPaciente());
                     if (p == null) {
                         System.out.println("Paciente no encontrado.");
-                    break;
+                        break;
                     }
                     System.out.println("Atendiendo a: " + p.getNombre() + " " + p.getApellido());
 
@@ -158,5 +156,6 @@ public class Main {
         scanner.close();
     }
 }
+
 
 

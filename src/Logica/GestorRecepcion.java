@@ -34,25 +34,53 @@ public class GestorRecepcion {
 
 
     public void registrarUrgencia(String nombre, String apellido, String dni, String fechaHora, int prioridad) {
-        if (pacientes.contieneClave(dni)) {
-            Orden t = new Orden(nombre, apellido, dni, fechaHora, prioridad);
-            colaGeneral.encolar(t);
-            turnosDelDia.agregar(t);
-            System.out.println("Orden agendado para: " + nombre + " " + apellido + " → " + fechaHora);
-        } else if (!pacientes.contieneClave(dni)) {
+        if (!pacientes.contieneClave(dni)) {
             System.out.println("Paciente no registrado. No se puede asignar turno.");
             return;
-        }
-        if (prioridad < 1 || prioridad > 5) {
-            System.out.println("Error: la prioridad debe estar entre 1 (no urgente) y 5 (emergencia vital).");
-            return;
-        }
-
-        Orden t = new Orden(nombre, apellido, dni, fechaHora, prioridad); // nuevo constructor con prioridad numérica
-        colaUrgencias.encolar(t, prioridad);
-        turnosDelDia.agregar(t);
-        System.out.println("Orden de urgencia registrado con prioridad " + prioridad);
     }
+
+    if (prioridad < 1 || prioridad > 5) {
+        System.out.println("Error: la prioridad debe estar entre 1 (no urgente) y 5 (emergencia vital).");
+        return;
+    }
+
+    Orden t = new Orden(nombre, apellido, dni, fechaHora, prioridad);
+
+        if (prioridad >= 3) {
+            colaUrgencias.encolar(t, prioridad);
+        } else {
+        colaGeneral.encolar(t);
+    }
+
+    turnosDelDia.agregarOrdenado(t); // solo se agrega una vez a la lista del día
+
+    System.out.println("Orden registrada para: " + nombre + " " + apellido + " → " + fechaHora + " | Prioridad " + prioridad);
+}
+
+    public void actualizarPrioridadesColaGeneral() {   // Mejora agregada para constatar el tiempo que lleva el paciente.
+        Cola<Orden> nuevaColaGeneral = new Cola<>();
+        long ahora = System.currentTimeMillis();
+        long mediaHora = 30 * 60 * 1000;
+
+        while (!colaGeneral.estaVacia()) {
+            Orden orden = colaGeneral.desencolar();
+            long tiempoEspera = ahora - orden.getTimestamp();
+
+        if (tiempoEspera >= mediaHora) {
+            int nuevaPrioridad = Math.min(orden.getPrioridad() + 1, 5);
+            orden.setPrioridad(nuevaPrioridad);
+            colaUrgencias.encolar(orden, nuevaPrioridad);
+            Paciente p = pacientes.get(orden.getDniPaciente());
+            System.out.println("Prioridad aumentada y movido a urgencias: " +
+                p.getNombre() + " " + p.getApellido() + " → prioridad: " + nuevaPrioridad);
+        } else {
+            nuevaColaGeneral.encolar(orden);
+        }
+    }
+
+    colaGeneral = nuevaColaGeneral;
+}
+
 
 
     public boolean existePaciente(String dni) {
@@ -62,6 +90,8 @@ public class GestorRecepcion {
 
 
     public void atenderPaciente(String motivo, String diagnostico, String fecha) {
+        actualizarPrioridadesColaGeneral();
+
         Orden turnoAtendido = !colaUrgencias.estaVacia()
             ? colaUrgencias.desencolar() 
             : colaGeneral.desencolar();
