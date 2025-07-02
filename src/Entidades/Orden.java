@@ -1,15 +1,12 @@
 package Entidades;
 
 public class Orden implements Comparable<Orden> {
-    private String nombre;
-    private String apellido;
     private String dniPaciente;
     private String fechaHora;
     private int prioridad;
 
-    public Orden(String nombre, String apellido, String dniPaciente, String fechaHora, int prioridad) {
-        this.nombre = nombre;
-        this.apellido = apellido;
+    public Orden(String dniPaciente, String fechaHora, int prioridad) {
+
         this.dniPaciente = dniPaciente;
         this.fechaHora = fechaHora;
         this.prioridad = prioridad;
@@ -35,6 +32,6 @@ public class Orden implements Comparable<Orden> {
 
     @Override
     public String toString() {
-        return "El paciente " + nombre + " " + apellido + " - DNI: " + dniPaciente + " con prioridad: " + prioridad;
+        return "El paciente con DNI: " + dniPaciente + " con prioridad: " + prioridad;
     }
 }

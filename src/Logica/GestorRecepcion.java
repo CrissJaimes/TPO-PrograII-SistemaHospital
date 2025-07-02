@@ -33,25 +33,24 @@ public class GestorRecepcion {
     }
 
 
-    public void registrarUrgencia(String nombre, String apellido, String dni, String fechaHora, int prioridad) {
-        if (pacientes.contieneClave(dni)) {
-            Orden t = new Orden(nombre, apellido, dni, fechaHora, prioridad);
-            colaGeneral.encolar(t);
-            turnosDelDia.agregar(t);
-            System.out.println("Orden agendado para: " + nombre + " " + apellido + " → " + fechaHora);
-        } else if (!pacientes.contieneClave(dni)) {
-            System.out.println("Paciente no registrado. No se puede asignar turno.");
+    public void registrarUrgencia(String dni,String motivo, String diagnostico, String fechaHora, int prioridad) {
+        if (!pacientes.contieneClave(dni)) {
+            System.out.println("Paciente no registrado.");
             return;
         }
         if (prioridad < 1 || prioridad > 5) {
-            System.out.println("Error: la prioridad debe estar entre 1 (no urgente) y 5 (emergencia vital).");
+            System.out.println("Prioridad inválida. Debe ser entre 1 y 5.");
             return;
         }
 
-        Orden t = new Orden(nombre, apellido, dni, fechaHora, prioridad); // nuevo constructor con prioridad numérica
-        colaUrgencias.encolar(t, prioridad);
-        turnosDelDia.agregar(t);
-        System.out.println("Orden de urgencia registrado con prioridad " + prioridad);
+        Orden orden = new Orden(dni, fechaHora, prioridad);
+        colaUrgencias.encolar(orden, prioridad);
+        turnosDelDia.agregar(orden);
+
+        Consulta consulta = new Consulta(fechaHora, motivo, diagnostico);
+        pacientes.get(dni).agregarConsulta(consulta);
+
+        System.out.println("Consulta urgente registrada con prioridad " + prioridad + " y diagnóstico: " + diagnostico);
     }
 
 
