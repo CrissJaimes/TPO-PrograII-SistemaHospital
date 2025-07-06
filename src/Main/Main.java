@@ -62,22 +62,19 @@ public class Main {
                     break;
 
                 case 2:
-//                    System.out.print("DNI del paciente: ");
-//                    dni = scanner.nextLine();
-//                    if (!sistema.existePaciente(dni)) {
-//                        System.out.println("No existe un paciente con ese DNI.");
-//                        break;
-//                    }
-//                    System.out.print("Especialidad: ");
-//                    especialidad = scanner.nextLine();
-//                    System.out.print("Motivo: ");
-//                    motivo = scanner.nextLine();
-//                    System.out.print("Diagnostico: ");
-//                    diagnostico = scanner.nextLine();
-//                    System.out.print("Prioridad: ");
-//                    prioridad = scanner.nextLine();
-//                    sistema.registrarUrgencia(especialidad, motivo, dni, diagnostico, 1);
-//                    System.out.println("Orden agendado correctamente.");
+                    System.out.print("DNI del paciente: ");
+                    dni = scanner.nextLine();
+                    if (!sistema.existePaciente(dni)) {
+                        System.out.println("No existe un paciente con ese DNI.");
+                        break;
+                    }
+                    Paciente pacienteOrden = sistema.getPacientePorDni(dni);
+                    nombre = pacienteOrden.getNombre();
+                    apellido = pacienteOrden.getApellido();
+                    System.out.print("Fecha y hora del turno (YYYY-MM-DD HH:MM): ");
+                    String fechaHora = scanner.nextLine();
+                    sistema.registrarUrgencia(nombre, apellido, dni, fechaHora, 1);
+                    System.out.println("Orden agendado correctamente.");
                     break;
 
                 case 3:
@@ -109,12 +106,12 @@ public class Main {
                     Orden siguiente = sistema.verProximaOrden(especialidad);
                     if (siguiente == null) {
                         System.out.println("No hay pacientes en espera.");
-                    break;
+                        break;
                     }
                     Paciente p = sistema.getPacientePorDni(siguiente.getDniPaciente());
                     if (p == null) {
                         System.out.println("Paciente no encontrado.");
-                    break;
+                        break;
                     }
 
                     sistema.atenderPaciente(especialidad);
