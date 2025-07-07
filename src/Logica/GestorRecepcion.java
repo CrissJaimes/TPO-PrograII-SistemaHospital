@@ -73,7 +73,7 @@ public class GestorRecepcion {
 
         Orden orden = new Orden(dni, fechaHora, prioridad);
         urgenciasPorEspecialidad.get(especialidad).encolar(orden, prioridad);
-        turnosDelDia.agregar(orden);
+        turnosDelDia.agregarOrdenado(orden);
 
         Consulta consulta = new Consulta(fechaHora, motivo, diagnostico);
         pacientes.get(dni).agregarConsulta(consulta);
