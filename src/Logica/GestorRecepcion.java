@@ -4,7 +4,6 @@ import Entidades.Orden;
 import TDA.*;
 import Entidades.Consulta;
 import Entidades.Paciente;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashMap;
@@ -16,7 +15,7 @@ public class GestorRecepcion {
     private Diccionario<String, Paciente> pacientes = new Diccionario<>();
     private Map<String, Cola<Orden>> turnosGeneralesPorEspecialidad = new HashMap<>();
     private Map<String, ColaConPrioridad<Orden>> urgenciasPorEspecialidad = new HashMap<>();
-    private ListaEnlazada<Orden> turnosDelDia = new ListaEnlazada<>(); //creada para poder visualizar todos los turnos del dia, es decir, urgentes y generales
+    private ListaEnlazada<Orden> turnosDelDia = new ListaEnlazada<>();
 
     public GestorRecepcion() {
         String[] especialidades = {"clinica", "pediatria", "traumatologia"};
@@ -41,7 +40,7 @@ public class GestorRecepcion {
         int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
 
         if (edad < 0 || edad > 99) {
-            System.out.println("Edad inválida (calculada desde la fecha de nacimiento)");
+            System.out.println("Edad inválida ");
             return;
         }
 
@@ -89,8 +88,35 @@ public class GestorRecepcion {
         return pacientes.contieneClave(dni);
     }
 
+    public void actualizarPrioridad() {
+        long ahora = System.currentTimeMillis();
+        double tiempo = 0.5 * 60 * 1000;
+
+       for (String especialidad : urgenciasPorEspecialidad.keySet()) {
+            ColaConPrioridad<Orden> colaActual = urgenciasPorEspecialidad.get(especialidad);
+            ColaConPrioridad<Orden> nuevaCola = new ColaConPrioridad<>();
+
+            // Recorremos la cola actual
+            while (!colaActual.estaVacia()) {
+                Orden orden = colaActual.desencolar();
+                long tiempoEspera = ahora - orden.getTimestamp();
+
+                if (tiempoEspera >= tiempo && orden.getPrioridad() < 5) {
+                    int nuevaPrioridad = orden.getPrioridad() + 1;
+                    orden.setPrioridad(nuevaPrioridad);
+                    System.out.println("✔ Prioridad aumentada para paciente con DNI " + orden.getDniPaciente()
+                            + " en especialidad " + especialidad + " → nueva prioridad: " + nuevaPrioridad);
+                }
+
+                nuevaCola.encolar(orden, orden.getPrioridad());
+            }
+            urgenciasPorEspecialidad.put(especialidad, nuevaCola);
+        }
+    }
+
 
     public void atenderPaciente(String especialidad) {
+        actualizarPrioridad();
         if (!urgenciasPorEspecialidad.containsKey(especialidad) || !turnosGeneralesPorEspecialidad.containsKey(especialidad)) {
             System.out.println("Especialidad inválida.");
             return;
@@ -133,27 +159,6 @@ public class GestorRecepcion {
         }
     }
 
-    public String verProximoTurnoUrgente(String especialidad) {
-        if (!urgenciasPorEspecialidad.containsKey(especialidad)) {
-            return "Especialidad inválida.";
-        }
-        ColaConPrioridad<Orden> cola = urgenciasPorEspecialidad.get(especialidad);
-        if (!cola.estaVacia()) {
-            return cola.verPrimero().toString();
-        }
-        return "Sin turnos urgentes en " + especialidad;
-    }
-
-    public String verProximoTurnoNormal(String especialidad) {
-        if (!turnosGeneralesPorEspecialidad.containsKey(especialidad)) {
-            return "Especialidad inválida.";
-        }
-        Cola<Orden> cola = turnosGeneralesPorEspecialidad.get(especialidad);
-        if (!cola.estaVacia()) {
-            return cola.verPrimero().toString();
-        }
-        return "Sin turnos normales en " + especialidad;
-    }
 
     public Orden verProximaOrden(String especialidad) {
         if (!urgenciasPorEspecialidad.containsKey(especialidad)) {

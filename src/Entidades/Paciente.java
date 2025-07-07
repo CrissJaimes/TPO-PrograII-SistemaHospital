@@ -20,10 +20,6 @@ public class Paciente {
         this.historial = new Pila<>();
     }
 
-    public String getDni() {
-        return dni;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -52,6 +48,6 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return nombre + " " +apellido + " (DNI: " + dni + ", Edad: " + fechaNacimiento + ")";
+        return nombre + " " +apellido + " (DNI: " + dni + ", Edad: " + calcularEdad() + ")";
     }
 }

@@ -60,10 +60,9 @@ public class Orden implements Comparable<Orden> {
 
     @Override
     public String toString() {
-        return "El paciente " + nombre + " " + apellido +
-               " - DNI: " + dniPaciente +
-               " | Prioridad: " + prioridad +
-               " | Turno: " + fechaHora;
+        return "Turno del paciente con DNI: " + dniPaciente +
+                " | Prioridad: " + prioridad +
+                " | Turno: " + fechaHora;
     }
 
 }
