@@ -118,8 +118,8 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println("--- Consulta de Pacientes ---");
-                    System.out.print("Ingrese una fecha (yyyy-MM-dd) o escriba 'todos' para ver todos los Pacientes: ");
+                    System.out.println("--- Consulta de pacientes ---");
+                    System.out.print("Ingrese una fecha (yyyy-MM-dd) o escriba 'todos' para ver todos los pacientes: ");
                     String entrada = scanner.nextLine().trim();
 
                     if (entrada.equalsIgnoreCase("todos") || entrada.isEmpty()) {

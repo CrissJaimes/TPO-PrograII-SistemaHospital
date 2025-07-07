@@ -184,19 +184,19 @@ public class GestorRecepcion {
 
     public void mostrarTurnosDelDia() {
         if (turnosDelDia.estaVacia()) {
-        System.out.println("No hay turnos registrados para hoy.");
+        System.out.println("No hay pacientes registrados para hoy.");
         return;
-    }
+        }
 
-    System.out.println("=== Turnos del Día ===");
+        System.out.println("=== Pacientes del Día ===");
 
-    for (Orden o : turnosDelDia) {
-        System.out.println("--- Turno ---");
-        System.out.printf("DNI:           %s%n", o.getDniPaciente());
-        System.out.printf("Prioridad:     %d%n", o.getPrioridad());
-        System.out.printf("Fecha y Hora:  %s%n", o.getFechaHora());
-        System.out.println("--------------");
-    }
+        for (Orden o : turnosDelDia) {
+            System.out.println("--- Paciente ---");
+            System.out.printf("DNI:           %s%n", o.getDniPaciente());
+            System.out.printf("Prioridad:     %d%n", o.getPrioridad());
+            System.out.printf("Fecha y Hora:  %s%n", o.getFechaHora());
+            System.out.println("--------------");
+        }
     }
 
     public void mostrarTurnosPorFecha(String fechaBuscada) {
@@ -217,7 +217,7 @@ public class GestorRecepcion {
         }
 
         if (!hayCoincidencias) {
-            System.out.println("No se encontraron turnos para esa fecha.");
+            System.out.println("No se encontraron pacientes para esa fecha.");
         }
     }
 }
