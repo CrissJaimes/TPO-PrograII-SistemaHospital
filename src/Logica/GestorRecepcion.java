@@ -145,15 +145,15 @@ public class GestorRecepcion {
     }
 
     public void mostrarHistorial(String dni) {
-    if (pacientes.contieneClave(dni)) {
-        Paciente paciente = pacientes.get(dni);
+        if (pacientes.contieneClave(dni)) {
+            Paciente paciente = pacientes.get(dni);
         if (paciente.historialVacio()) {
             System.out.println("Historial vacío");
-        } else {
-            for (Consulta c : paciente.getHistorial()) {
-                System.out.println(c);
+            } else {
+                for (Consulta c : paciente.getHistorial()) {
+                    System.out.println(c);
+                    }
                 }
-            }
         } else {
             System.out.println("Paciente no encontrado.");
         }
@@ -179,12 +179,45 @@ public class GestorRecepcion {
     }
 
     public Paciente getPacientePorDni(String dni) {
-    return pacientes.get(dni);
+        return pacientes.get(dni);
 }
 
     public void mostrarTurnosDelDia() {
-        for (Orden t : turnosDelDia) {
-            System.out.println(t);
+        if (turnosDelDia.estaVacia()) {
+        System.out.println("No hay turnos registrados para hoy.");
+        return;
+    }
+
+    System.out.println("=== Turnos del Día ===");
+
+    for (Orden o : turnosDelDia) {
+        System.out.println("--- Turno ---");
+        System.out.printf("DNI:           %s%n", o.getDniPaciente());
+        System.out.printf("Prioridad:     %d%n", o.getPrioridad());
+        System.out.printf("Fecha y Hora:  %s%n", o.getFechaHora());
+        System.out.println("--------------");
+    }
+    }
+
+    public void mostrarTurnosPorFecha(String fechaBuscada) {
+        boolean hayCoincidencias = false;
+
+        System.out.println("=== Pacientes para la fecha " + fechaBuscada + " ===");
+
+        for (Orden o : turnosDelDia) {
+            String fechaTurno = o.getFechaHora().substring(0, 10);
+            if (fechaTurno.equals(fechaBuscada)) {
+                hayCoincidencias = true;
+                System.out.println("--- Paciente ---");
+                System.out.printf("DNI:           %s%n", o.getDniPaciente());
+                System.out.printf("Prioridad:     %d%n", o.getPrioridad());
+                System.out.printf("Fecha y Hora:  %s%n", o.getFechaHora());
+                System.out.println("--------------");
+            }
+        }
+
+        if (!hayCoincidencias) {
+            System.out.println("No se encontraron turnos para esa fecha.");
         }
     }
 }

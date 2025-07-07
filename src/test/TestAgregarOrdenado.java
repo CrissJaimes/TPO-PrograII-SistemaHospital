@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import Entidades.Orden;
 import TDA.ListaEnlazada;
 
-public class TestOrden {
+public class TestAgregarOrdenado {
     public static void main(String[] args) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 

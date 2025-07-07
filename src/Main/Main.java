@@ -118,8 +118,15 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println("--- Pacientes del día ---");
-                    sistema.mostrarTurnosDelDia();
+                    System.out.println("--- Consulta de Pacientes ---");
+                    System.out.print("Ingrese una fecha (yyyy-MM-dd) o escriba 'todos' para ver todos los Pacientes: ");
+                    String entrada = scanner.nextLine().trim();
+
+                    if (entrada.equalsIgnoreCase("todos") || entrada.isEmpty()) {
+                        sistema.mostrarTurnosDelDia();
+                    } else {
+                        sistema.mostrarTurnosPorFecha(entrada);
+                        }
                     break;
 
                 case 6:
